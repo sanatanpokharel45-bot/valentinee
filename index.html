@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Valentine Proposal ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ffb199);
+}
+
+/* ---------- Card ---------- */
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    max-width: 420px;
+    z-index: 2;
+}
+
+.message {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.question {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ---------- Buttons ---------- */
+button {
+    padding: 12px 26px;
+    font-size: 17px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    margin: 8px;
+}
+
+#yesBtn {
+    background: #ff4d6d;
+    color: white;
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
+}
+
+#noBtn {
+    background: #ccc;
+    position: absolute;
+}
+
+/* ---------- Hearts ---------- */
+.heart {
+    position: absolute;
+    bottom: -20px;
+    font-size: 18px;
+    animation: floatUp linear forwards;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-110vh);
+        opacity: 0;
+    }
+}
+
+/* ---------- Sparkles ---------- */
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+    0%,100% { opacity:0; }
+    50% { opacity:1; }
+}
+
+/* ---------- Confetti ---------- */
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 12px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(720deg);
+    }
+}
+
+/* ---------- Fireworks ---------- */
+.firework {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    to {
+        transform: translate(var(--x), var(--y));
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="main">
+
+    <div class="message">
+        If love had a name, it would be yours.<br>
+        If happiness had a face, it would look like you.<br>
+        Every moment with you feels like a beautiful dream I never want to wake up from.<br>
+        So on this Valentine’s Day, I’m choosing you — today, tomorrow, always.
+    </div>
+
+    <div class="question">
+        Will you choose me too? ❤️
+    </div>
+
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 😢</button>
+</div>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const main = document.getElementById("main");
+
+/* No button runs away */
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+/* Hearts */
+function createHeart() {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤️";
+    h.style.left = Math.random()*100+"vw";
+    h.style.fontSize = (Math.random()*20+15)+"px";
+    h.style.animationDuration = (Math.random()*3+3)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),5000);
+}
+setInterval(createHeart, 250);
+
+/* Sparkles */
+for(let i=0;i<60;i++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+    s.style.animationDelay=Math.random()*2+"s";
+    document.body.appendChild(s);
+}
+
+/* Confetti */
+function confettiBurst(){
+    for(let i=0;i<120;i++){
+        const c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+        c.style.animationDuration=(Math.random()*3+2)+"s";
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),5000);
+    }
+}
+
+/* Firework */
+function firework(x,y){
+    for(let i=0;i<25;i++){
+        const f=document.createElement("div");
+        f.className="firework";
+        f.style.left=x+"px";
+        f.style.top=y+"px";
+        f.style.background=`hsl(${Math.random()*360},100%,60%)`;
+
+        const angle=Math.random()*Math.PI*2;
+        const dist=Math.random()*120;
+
+        f.style.setProperty("--x",Math.cos(angle)*dist+"px");
+        f.style.setProperty("--y",Math.sin(angle)*dist+"px");
+
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),1000);
+    }
+}
+
+/* YES click */
+yesBtn.addEventListener("click", ()=>{
+    main.innerHTML="<h1>YAYYY!! ❤️🎉<br>You said YES!! 🥰</h1>";
+    confettiBurst();
+    for(let i=0;i<6;i++){
+        setTimeout(()=>{
+            firework(Math.random()*window.innerWidth,
+                     Math.random()*window.innerHeight/2);
+        }, i*400);
+    }
+});
+</script>
+
+</body>
+</html>
